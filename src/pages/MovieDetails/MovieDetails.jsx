@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import {
   Link,
   Outlet,
@@ -17,6 +17,7 @@ const MovieDetails = () => {
   const [movieData, setMovieData] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const backLink = useRef(state?.from ?? '/');
 
   useEffect(() => {
     fetchData('movieId', Number(movieId))
@@ -34,7 +35,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={state?.from ?? '/'}>Go back</Link>
+      <Link to={backLink.current}>Go back</Link>
 
       {error === '' && movieData ? (
         <>
@@ -42,14 +43,10 @@ const MovieDetails = () => {
 
           <ul>
             <li>
-              <NavLinkStyled to="cast" state={{ from: state?.from }}>
-                Cast
-              </NavLinkStyled>
+              <NavLinkStyled to="cast">Cast</NavLinkStyled>
             </li>
             <li>
-              <NavLinkStyled to="reviews" state={{ from: state?.from }}>
-                Reviews
-              </NavLinkStyled>
+              <NavLinkStyled to="reviews">Reviews</NavLinkStyled>
             </li>
           </ul>
 
